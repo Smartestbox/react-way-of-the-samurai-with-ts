@@ -1,8 +1,14 @@
 .nav {
     grid-area: navi;
     background-color: lightcoral;
+    padding: 20px;
 }
 
-.navItem {
+.navItem a {
     color: white;
+    text-decoration: none;
+}
+
+.navItem a.activeLink {
+    color: gold;
 }
