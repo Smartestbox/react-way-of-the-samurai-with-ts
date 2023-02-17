@@ -1,10 +1,12 @@
 import React, {RefObject, useRef} from 'react';
 import s from './MyPosts.module.css'
 import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/state";
 
 export type MyPostsProps = {
     posts: Array<PostType>
-    addPost: (postMessage: string) => void
+    newPostText: string
+    dispatch: () => void
 }
 
 export type PostType = {
@@ -12,6 +14,7 @@ export type PostType = {
     message: string
     likesCount: number
 }
+
 
 const MyPosts = (props:MyPostsProps) => {
 
@@ -21,7 +24,15 @@ const MyPosts = (props:MyPostsProps) => {
 
     const addPost = () => {
         if(textAreaRef.current) {
-            props.addPost(textAreaRef.current?.value)
+            props.dispatch(addPostActionCreator())
+        }
+        // props.updateNewPostText('')
+    }
+
+    const onPostChange = () => {
+        if(textAreaRef.current) {
+            let text = textAreaRef.current?.value
+            props.dispatch(updateNewPostTextActionCreator(text))
         }
     }
 
@@ -30,7 +41,13 @@ const MyPosts = (props:MyPostsProps) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={textAreaRef}></textarea>
+                    <textarea
+                        ref={textAreaRef}
+                        onChange={onPostChange}
+                        value={props.newPostText}
+                    >
+
+                    </textarea>
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>
